@@ -74,7 +74,7 @@ A web project designed to help users explore a parking-finder concept through a 
 **Hariharan M.**
 
 - GitHub: [hhariharanm33-wq](https://github.com/hhariharanm33-wq)
-- LinkedIn: [Connect with me](https://linkedin.com/in/hhariharanm1503)
+- LinkedIn: [hhariharanm1503](https://linkedin.com/in/hhariharanm1503)
 - Email: hariharanm33@gmail.com
 
 ## License
