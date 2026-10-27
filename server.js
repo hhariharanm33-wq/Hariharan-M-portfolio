@@ -6,10 +6,21 @@ const rateLimit = require("express-rate-limit");
 const Database = require("better-sqlite3");
 const path = require("path");
 const fs = require("fs");
+const nodemailer = require("nodemailer");
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 const isProduction = process.env.NODE_ENV === "production";
+const emailTransporter =
+  process.env.EMAIL_USER && process.env.EMAIL_PASS
+    ? nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
+        }
+      })
+    : null;
 
 const publicDirectory = path.join(__dirname, "public");
 const dataDirectory = path.join(__dirname, "data");
@@ -61,10 +72,13 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", message: "Portfolio API is running." });
 });
 
-app.post("/api/contact", contactLimiter, (req, res) => {
-  // Honeypot field: normal visitors should leave this empty.
+
+app.post("/api/contact", contactLimiter, async (req, res) => {
   if (clean(req.body.website, 200)) {
-    return res.status(200).json({ success: true, message: "Thanks for your message." });
+    return res.status(200).json({
+      success: true,
+      message: "Thanks for your message."
+    });
   }
 
   const name = clean(req.body.name, 80);
@@ -73,29 +87,64 @@ app.post("/api/contact", contactLimiter, (req, res) => {
   const message = clean(req.body.message, 3000);
 
   if (!name || !email || !subject || !message) {
-    return res.status(400).json({ success: false, message: "Please complete every field." });
+    return res.status(400).json({
+      success: false,
+      message: "Please complete every field."
+    });
   }
+
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return res.status(400).json({ success: false, message: "Please enter a valid email address." });
+    return res.status(400).json({
+      success: false,
+      message: "Please enter a valid email address."
+    });
   }
+
   if (name.length < 2 || message.length < 10) {
-    return res.status(400).json({ success: false, message: "Please enter your name and a message of at least 10 characters." });
+    return res.status(400).json({
+      success: false,
+      message: "Please enter your name and a message of at least 10 characters."
+    });
   }
 
   try {
-    const insert = db.prepare(
+    db.prepare(
       "INSERT INTO messages (name, email, subject, message) VALUES (?, ?, ?, ?)"
-    );
-    insert.run(name, email, subject, message);
-    return res.status(201).json({
-      success: true,
-      message: "Thanks for reaching out. Your message has been saved."
-    });
+    ).run(name, email, subject, message);
   } catch (error) {
     console.error("Contact form database error:", error.message);
     return res.status(500).json({
       success: false,
       message: "Sorry, your message could not be saved right now."
+    });
+  }
+
+  if (!emailTransporter || !process.env.NOTIFY_EMAIL) {
+    console.error("Email notification is not configured.");
+    return res.status(201).json({
+      success: true,
+      message: "Your message was saved, but email notifications are not configured."
+    });
+  }
+
+  try {
+    await emailTransporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: process.env.NOTIFY_EMAIL,
+      replyTo: email,
+      subject: `Portfolio contact: ${subject}`,
+      text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\nMessage:\n${message}`
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Thanks for reaching out. Your message has been saved."
+    });
+  } catch (error) {
+    console.error("Contact notification email failed:", error.message);
+    return res.status(201).json({
+      success: true,
+      message: "Your message was saved, but the email notification could not be sent."
     });
   }
 });

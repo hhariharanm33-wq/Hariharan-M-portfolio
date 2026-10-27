@@ -17,7 +17,7 @@ if (typingCode && typingOutput && typingStatus) {
     "  public static void main(String[] args) {",
     '    String name = "Hariharan";',
     '    String skill = "Java + Full Stack";',
-    `    System.out.println("Hello, " + name);`,
+    `    System.out.println("I am, " + name);`,
     "    System.out.println(skill);",
     "  }",
     "}"
@@ -34,7 +34,7 @@ if (typingCode && typingOutput && typingStatus) {
     if (!outputShown) {
       outputShown = true;
       typingStatus.textContent = "Program executed successfully";
-      typingOutput.textContent = "Hello, Hariharan  ·  Java + Full Stack";
+      typingOutput.textContent = "I am, Hariharan  ·  Java + Full Stack";
     }
     window.setTimeout(() => {
       typingCode.textContent = "";
@@ -165,3 +165,156 @@ if (contactForm) {
     }
   });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(() => {
+  const root = document.documentElement;
+  const dot = document.querySelector(".site-cursor-dot");
+  const ring = document.querySelector(".site-cursor-ring");
+
+  if (!dot || !ring) return;
+
+  const allowed = window.matchMedia(
+    "(hover: hover) and (pointer: fine) and " +
+    "(prefers-reduced-motion: no-preference)"
+  );
+
+  const interactiveSelector = [
+    "a[href]",
+    "button:not(:disabled)",
+    '[role="button"]',
+    "summary",
+    'input[type="submit"]',
+    'input[type="button"]'
+  ].join(",");
+
+  const nativeCursorSelector = [
+    "input",
+    "textarea",
+    "select",
+    '[contenteditable]:not([contenteditable="false"])',
+    "iframe"
+  ].join(",");
+
+  let mouseX = 0;
+  let mouseY = 0;
+  let ringX = 0;
+  let ringY = 0;
+  let frame = null;
+  let visible = false;
+
+  function hideCursor() {
+    visible = false;
+
+    root.classList.remove(
+      "site-cursor-active",
+      "site-cursor-hover",
+      "site-cursor-down"
+    );
+
+    cancelAnimationFrame(frame);
+    frame = null;
+  }
+
+  function updateTarget(target) {
+    if (
+      !(target instanceof Element) ||
+      target.closest(nativeCursorSelector)
+    ) {
+      hideCursor();
+      return false;
+    }
+
+    root.classList.toggle(
+      "site-cursor-hover",
+      Boolean(target.closest(interactiveSelector))
+    );
+
+    return true;
+  }
+
+  function animate() {
+    if (!visible) {
+      frame = null;
+      return;
+    }
+
+    ringX += (mouseX - ringX) * 0.2;
+    ringY += (mouseY - ringY) * 0.2;
+
+    ring.style.transform =
+      `translate3d(${ringX}px, ${ringY}px, 0) ` +
+      "translate(-50%, -50%)";
+
+    frame = requestAnimationFrame(animate);
+  }
+
+  window.addEventListener("pointermove", (event) => {
+    if (!allowed.matches || event.pointerType !== "mouse") {
+      hideCursor();
+      return;
+    }
+
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+
+    if (!updateTarget(event.target)) return;
+
+    dot.style.transform =
+      `translate3d(${mouseX}px, ${mouseY}px, 0) ` +
+      "translate(-50%, -50%)";
+
+    if (!visible) {
+      ringX = mouseX;
+      ringY = mouseY;
+      visible = true;
+      root.classList.add("site-cursor-active");
+    }
+
+    if (frame === null) animate();
+  }, { passive: true });
+
+  /* Update hover state when scrolling beneath a stationary mouse */
+  window.addEventListener("scroll", () => {
+    if (!visible) return;
+
+    updateTarget(document.elementFromPoint(mouseX, mouseY));
+  }, { passive: true });
+
+  window.addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "mouse" && visible) {
+      root.classList.add("site-cursor-down");
+    }
+  });
+
+  window.addEventListener("pointerup", () => {
+    root.classList.remove("site-cursor-down");
+  });
+
+  document.documentElement.addEventListener(
+    "pointerleave",
+    hideCursor
+  );
+
+  window.addEventListener("blur", hideCursor);
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) hideCursor();
+  });
+
+  allowed.addEventListener("change", hideCursor);
+})();
