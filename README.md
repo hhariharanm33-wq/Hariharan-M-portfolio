@@ -1,82 +1,119 @@
-# Hariharan M. — Developer Portfolio
+# 👋 Hariharan M. | Software Developer Portfolio
 
-A modern, responsive developer portfolio built to showcase my technical skills, projects, education, and professional interests.
+Welcome to my personal developer portfolio! This project showcases my technical skills, development projects, professional background, and interest in building modern, responsive, and user-friendly software solutions.
 
-## About the Project
+🌐 **Live Portfolio:** https://hariharan-m-portfolio-hq.netlify.app/
 
-This portfolio presents my background as an MCA graduate and aspiring software developer. It provides an overview of my technical skills, project experience, and contact information in one place.
+---
 
-## Features
+## 🚀 About the Project
 
-- Responsive design for desktop and mobile devices
-- Animated interface and interactive elements
-- Technical skills and education sections
-- Project showcase
-- Contact form with server-side validation
-- Backend API built with Node.js and Express
-- SQLite database integration for storing contact messages
+This portfolio website is designed to present my software development journey, technical expertise, and practical projects in one place.
 
-## Technologies Used
+It features a modern user interface, responsive layouts, interactive animations, and a functional contact form to make it easy for recruiters, developers, and potential clients to connect with me.
 
-**Frontend**
-- HTML5
-- CSS3
-- JavaScript
-- Bootstrap
+## ✨ Key Features
 
-**Backend**
-- Node.js
-- Express.js
-- SQLite
+- **Modern UI/UX:** Clean, attractive, and professional design.
+- **Responsive Design:** Optimized for desktop, tablet, and mobile devices.
+- **About Me:** Introduction and professional background.
+- **Technical Skills:** Overview of my programming and development skills.
+- **Projects:** Showcase of practical development projects.
+- **Education:** Academic background and learning journey.
+- **Contact Form:** Functional contact form with backend integration.
+- **Database Integration:** Supabase integration for data management.
+- **Animations:** Smooth transitions and interactive elements.
+- **Live Deployment:** Hosted using Netlify.
 
-**Tools**
-- Git
-- GitHub
-- Visual Studio Code
+## 🛠️ Technologies Used
 
-## Featured Project
+| Category | Technologies |
+|---|---|
+| Frontend | HTML5, CSS3, JavaScript |
+| UI Framework | Bootstrap |
+| Backend | Node.js, Express.js |
+| Database | Supabase, SQLite |
+| Version Control | Git, GitHub |
+| Deployment | Netlify |
 
-### Smart Parking Finder System
+## 📂 Project Structure
 
-A web project designed to help users explore a parking-finder concept through a simple interface built with HTML, CSS, and JavaScript.
+```text
+Hariharan-M-portfolio/
+│
+├── data/
+├── netlify/
+│   └── functions/
+├── public/
+├── .gitignore
+├── README.md
+├── package.json
+├── package-lock.json
+└── server.js
+```
 
-## Getting Started
+## 💻 Run Locally
 
-### Prerequisites
+To run this project on your local machine:
 
-- Node.js
-- npm
+**1. Clone the repository**
 
-### Installation
+```bash
+git clone https://github.com/hhariharanm33-wq/Hariharan-M-portfolio.git
+```
 
-1. Clone this repository:
+**2. Navigate to the project folder**
 
-   `git clone https://github.com/hhariharanm33-wq/Hariharan-M-portfolio.git`
+```bash
+cd Hariharan-M-portfolio
+```
 
-2. Open the project folder:
+**3. Install dependencies**
 
-   `cd Hariharan-M-portfolio`
+```bash
+npm install
+```
 
-3. Install dependencies:
+**4. Configure environment variables**
 
-   `npm install`
+Set up the environment variables required by the backend and integrations. Never share or commit private API keys or credentials.
 
-4. Create a local `.env` file if required by the application configuration.
+**5. Start the application**
 
-5. Start the application:
+```bash
+npm start
+```
 
-   `npm start`
+## 📸 Portfolio Preview
 
-6. Open `http://localhost:3000` in your browser, provided port 3000 is configured in the application.
+Explore the live website to see the design, projects, skills, and interactive features.
 
-## Contact
+🌐 **[Visit My Portfolio](https://hariharan-m-portfolio-hq.netlify.app/)**
 
-**Hariharan M.**
+## 🎯 Project Goals
 
-- GitHub: [hhariharanm33-wq](https://github.com/hhariharanm33-wq)
-- LinkedIn: [hhariharanm1503](https://linkedin.com/in/hhariharanm1503)
-- Email: hariharanm33@gmail.com
+- Build a professional online developer presence.
+- Showcase practical software development skills.
+- Demonstrate frontend and backend integration.
+- Create a responsive and user-friendly experience.
+- Connect with recruiters and potential freelance clients.
 
-## License
+## 📬 Contact Me
 
-No license has been specified for this project yet.
+I'm open to professional opportunities, software development roles, and freelance projects.
+
+- **Email:** hhariharanm33@gmail.com 
+- **LinkedIn:** linkedin.com/in/hariharanm1503](https://linkedin.com/in/hariharanm1503)
+- **GitHub:** github.com/hhariharanm33-wq](https://github.com/hhariharanm33-wq)
+
+---
+
+## 📌 Version
+
+**Current Release:** v1.0.0 – Initial Stable Release
+
+---
+
+⭐ If you find this project interesting, feel free to explore my portfolio and connect with me!
+
+**Designed & Developed by Hariharan M.**
